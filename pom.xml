@@ -1,68 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>xyz.jplan</groupId>
-	<artifactId>planning-room</artifactId>
-	<version>0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+    <groupId>xyz.jplan.room</groupId>
+    <artifactId>planning-room-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>Planning Room</name>
-	<description>
-		Started by official Eclipse Starter.
-	</description>
+    <name>Planning Room Parent</name>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.report.sourceEncoding>UTF-8</project.report.sourceEncoding>
-		<maven.compiler.release>17</maven.compiler.release>
-		<jakartaee-api.version>10.0.0</jakartaee-api.version>
-		<payara.version>6.2024.1</payara.version>
-		<compiler-plugin.version>3.11.0</compiler-plugin.version>
-		<war-plugin.version>3.4.0</war-plugin.version>
-		<cargo.version>1.10.11</cargo.version>
-	</properties>
+    <modules>
+        <module>room-core</module>
+        <module>room-web</module>
+    </modules>
 
-	<dependencies>
-		<dependency>
-			<groupId>jakarta.platform</groupId>
-			<artifactId>jakarta.jakartaee-api</artifactId>
-			<version>${jakartaee-api.version}</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
+    <properties>
+        <jakartaee-api.version>10.0.0</jakartaee-api.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.report.sourceEncoding>UTF-8</project.report.sourceEncoding>
+        <maven.compiler.release>17</maven.compiler.release>
+        <compiler-plugin.version>3.11.0</compiler-plugin.version>
+        <war-plugin.version>3.4.0</war-plugin.version>
+    </properties>
 
-	<build>
-		<finalName>planning-room</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>${war-plugin.version}</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>${jakartaee-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
-			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven3-plugin</artifactId>
-				<version>${cargo.version}</version>
-				<configuration>
-					<container>
-						<containerId>payara</containerId>
-						<artifactInstaller>
-							<groupId>fish.payara.distributions</groupId>
-							<artifactId>payara</artifactId>
-							<version>${payara.version}</version>
-						</artifactInstaller>
-					</container>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${war-plugin.version}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
