@@ -13,10 +13,10 @@
     </parent>
 
     <name>Planning Room Core</name>
-    <description>Core App</description>
+    <description>Planing Room Backend App</description>
 
     <build>
-        <finalName>planning-core</finalName>
+        <finalName>planning-room-core</finalName>
     </build>
 
 </project>

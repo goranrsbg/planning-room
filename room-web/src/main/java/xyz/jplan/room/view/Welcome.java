@@ -1,20 +1,22 @@
 package xyz.jplan.room.view;
 
-import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import xyz.jplan.room.services.TestService;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @ViewScoped
-public class Index implements Serializable {
+public class Welcome implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 101L;
 
-    @EJB
-    private TestService testService;
+    @Inject
+    TestService testService = new TestService();
 
-    public String hello() {
+    public String getHello() {
         return testService.hello();
     }
 }

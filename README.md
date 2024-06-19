@@ -7,37 +7,31 @@ Using \
 
 ### Run
 
-- Navigate
+> mvn clean install
 
-> cd room-web/
+> cd room-web
 
-#### Maven cli
-
-- when
-
-> mvn clean package cargo:run
+> mvn cargo:run
 
 - then
 
 ```
-http://localhost:8080
+http://localhost:8080/planning-room
 ```
 
 #### Docker cli
 
-- when
+> mvn clean install
 
-> mvn clean package \
+> cd room-web
+
 > docker build -t planning-room:v1 .
-
-- and
 
 > docker run -it --rm -p 8181:8181 -p 8080:8080 planning-room:v1
 
 - then
 
-```
-access the project at 
+``` 
 https://localhost:8181/planning-room
 http://localhost:8080/planning-room
 ```

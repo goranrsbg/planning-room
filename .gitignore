@@ -1,2 +1,8 @@
-.idea
 target
+
+# Idea IDE
+.idea
+# Eclipse IDE
+.settings
+.classpath
+.project

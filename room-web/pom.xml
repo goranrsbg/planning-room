@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>planning-room</artifactId>
+    <artifactId>planning-room-web</artifactId>
     <packaging>war</packaging>
 
     <parent>
@@ -15,7 +15,7 @@
     <name>Planning Room Web App</name>
 
     <properties>
-        <payara.version>6.2024.1</payara.version>
+        <payara.version>6.2024.5</payara.version>
         <cargo.version>1.10.11</cargo.version>
     </properties>
 
