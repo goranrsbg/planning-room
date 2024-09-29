@@ -9,29 +9,24 @@ Using \
 
 > mvn clean install
 
-> cd room-web
+> cd room
 
 > mvn cargo:run
 
 - then
 
 ```
-http://localhost:8080/planning-room
+http://localhost:8080/planning-room-web
+https://localhost:8181/planning-room-web
 ```
 
 #### Docker cli
 
-> mvn clean install
-
-> cd room-web
-
-> docker build -t planning-room:v1 .
-
-> docker run -it --rm -p 8181:8181 -p 8080:8080 planning-room:v1
+> ./run.sh
 
 - then
 
 ``` 
-https://localhost:8181/planning-room
-http://localhost:8080/planning-room
+http://localhost:8080/planning-room-web
+https://localhost:8181/planning-room-web
 ```

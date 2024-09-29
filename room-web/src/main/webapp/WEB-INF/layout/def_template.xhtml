@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html">
+<f:view contentType="text/html" encoding="UTF-8">
+    <ui:insert name="metadata"/>
+    <h:head>
+        <title>Planning Room
+            <ui:insert name="pageTitle"/>
+        </title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <ui:insert name="headIncludes"/>
+    </h:head>
+    <h:body styleClass="d-flex flex-column h-100">
+        <main role="main" class="flex-shrink-0">
+            <div class="container">
+                <ui:insert name="content"/>
+            </div>
+        </main>
+        <ui:include src="/WEB-INF/layout/def_alert.xhtml"/>
+        <ui:include src="/WEB-INF/layout/def_footer.xhtml"/>
+        <ui:insert name="bodyIncludes"/>
+    </h:body>
+</f:view>
+</html>

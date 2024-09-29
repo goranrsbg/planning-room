@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,10 +14,10 @@
     </parent>
 
     <name>Planning Room Web App</name>
+    <description>Frontend app with backend</description>
 
     <properties>
-        <payara.version>6.2024.5</payara.version>
-        <cargo.version>1.10.11</cargo.version>
+        <war-plugin.version>3.4.0</war-plugin.version>
     </properties>
 
     <dependencies>
@@ -24,26 +25,17 @@
             <groupId>xyz.jplan.room</groupId>
             <artifactId>planning-room-core</artifactId>
             <version>${project.version}</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>planning-room</finalName>
+        <finalName>planning-room-web</finalName>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-maven3-plugin</artifactId>
-                <version>${cargo.version}</version>
-                <configuration>
-                    <container>
-                        <containerId>payara</containerId>
-                        <artifactInstaller>
-                            <groupId>fish.payara.distributions</groupId>
-                            <artifactId>payara</artifactId>
-                            <version>${payara.version}</version>
-                        </artifactInstaller>
-                    </container>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${war-plugin.version}</version>
             </plugin>
         </plugins>
     </build>

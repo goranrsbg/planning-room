@@ -1,5 +1,4 @@
-module planning.room {
+module planning.room.web {
     requires planning.room.core;
-    requires java.logging;
     requires jakarta.jakartaee.api;
 }

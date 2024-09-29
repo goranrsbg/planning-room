@@ -6,7 +6,7 @@ public class Ping {
 
     public Ping(String suffix) {
         String end = suffix == null ? ""
-                                    : " " + suffix;
+                : " " + suffix;
         message = System.currentTimeMillis() + end;
     }
 

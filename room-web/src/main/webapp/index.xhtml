@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="/WEB-INF/layout/def_template.xhtml">
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewAction action="#{welcomeBean.init()}"/>
+        </f:metadata>
+    </ui:define>
+    <ui:define name="pageTitle">#{welcomeBean.title}</ui:define>
+    <ui:define name="content">
+        <h2>Welcome | Under construction...</h2>
+        <p>Welcome </p>#{welcomeBean.hello()}
+        <p>Welcome </p>#{welcomeBean.helloFromIn()}
+    </ui:define>
+</ui:composition>
