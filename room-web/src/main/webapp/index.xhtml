@@ -7,10 +7,14 @@
             <f:viewAction action="#{welcomeBean.init()}"/>
         </f:metadata>
     </ui:define>
+    <ui:define name="headIncludes">
+        <script type="module" src="app.js"/>
+    </ui:define>
     <ui:define name="pageTitle">#{welcomeBean.title}</ui:define>
     <ui:define name="content">
         <h2>Welcome | Under construction...</h2>
         <p>Welcome </p>#{welcomeBean.hello()}
         <p>Welcome </p>#{welcomeBean.helloFromIn()}
+        <s-g></s-g>
     </ui:define>
 </ui:composition>
