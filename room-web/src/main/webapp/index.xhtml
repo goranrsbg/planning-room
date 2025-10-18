@@ -13,8 +13,8 @@
     <ui:define name="pageTitle">#{welcomeBean.title}</ui:define>
     <ui:define name="content">
         <h2>Welcome | Under construction...</h2>
-        <p>Welcome </p>#{welcomeBean.hello()}
-        <p>Welcome </p>#{welcomeBean.helloFromIn()}
-        <s-g></s-g>
+        <p>Welcome #{welcomeBean.hello()}</p>
+        <p>Welcome #{welcomeBean.helloFromIn()}</p>
+        <s-g data-hello-world="#{welcomeBean.helloWorld()}"></s-g>
     </ui:define>
 </ui:composition>

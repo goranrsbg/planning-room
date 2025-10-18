@@ -1,8 +1,9 @@
-import {LitElement, html} from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
+import {LitElement, html} from 'lit';
 
 export class SimpleGreeting extends LitElement {
     static properties = {
         version: {},
+		data-hello-world: {state: true},
     };
 
     constructor() {
@@ -14,6 +15,7 @@ export class SimpleGreeting extends LitElement {
         return html`
             <p>Welcome to the Lit tutorial!</p>
             <p>This is the ${this.version} code.</p>
+			<p>Data ${this.data-hello-world}</p>
         `;
     }
 
