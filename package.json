@@ -1,0 +1,8 @@
+{
+  "name": "Goran Cvijanovic",
+  "email": "goran.rs.bg@gmail.com",
+  "url": "",
+  "dependencies": {
+    "lit": "^3.3.1"
+  }
+}
