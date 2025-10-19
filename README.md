@@ -7,6 +7,8 @@ Using \
 
 ### Run
 
+> npm run build
+
 > mvn clean install
 
 > cd room
