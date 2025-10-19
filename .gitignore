@@ -9,3 +9,4 @@ package-lock.json
 .settings
 .classpath
 .project
+/bin/
