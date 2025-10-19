@@ -2,7 +2,8 @@ target
 node_modules
 package-lock.json
 *.orig
-
+room-web/src/main/webapp/app.bundle.js
+room-web/src/main/webapp/app.bundle.js.LICENSE.txt
 # Idea IDE
 .idea
 # Eclipse IDE
