@@ -2,8 +2,8 @@ import {LitElement, html} from 'lit';
 
 export class SimpleGreeting extends LitElement {
     static properties = {
-        version: {},
-		data-hello-world: {state: true},
+        version:        {type: String},
+		dataHelloWorld: {type: String, attribute: 'data-hello-world' },
     };
 
     constructor() {
@@ -15,7 +15,7 @@ export class SimpleGreeting extends LitElement {
         return html`
             <p>Welcome to the Lit tutorial!</p>
             <p>This is the ${this.version} code.</p>
-			<p>Data ${this.data-hello-world}</p>
+			<p>Data ${JSON.parse(this.dataHelloWorld).name}</p>
         `;
     }
 
