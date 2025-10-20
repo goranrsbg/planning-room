@@ -4,6 +4,7 @@ set -e
 
 cd "$(dirname "$0")"
 
+npm run build
 mvn clean package
 cd room-web
 docker build -t planning-room:1.0 -f ./docker/Dockerfile  .

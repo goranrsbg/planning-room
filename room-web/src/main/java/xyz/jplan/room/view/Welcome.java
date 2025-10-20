@@ -13,37 +13,37 @@ import xyz.jplan.room.services.TestService;
 @ViewScoped
 public class Welcome implements Serializable {
 
-	public static final String TITLE = "Main";
+    public static final String TITLE = "Main";
 
-	@Serial
-	private static final long serialVersionUID = 101L;
+    @Serial
+    private static final long serialVersionUID = 101L;
 
-	@Inject
-	private TestService testService;
+    @Inject
+    private TestService testService;
 
-	@Inject
-	private InTest inTest;
+    @Inject
+    private InTest inTest;
 
-	private String title;
+    private String title;
 
-	public void init() {
-		title = Constants.TITLE_SEPARATOR + TITLE;
-	}
+    public void init() {
+	title = Constants.TITLE_SEPARATOR + TITLE;
+    }
 
-	public String hello() {
-		return testService.hello();
-	}
+    public String hello() {
+	return testService.hello();
+    }
 
-	public String helloFromIn() {
-		return inTest.hello();
-	}
+    public String helloFromIn() {
+	return inTest.hello();
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+	return title;
+    }
 
-	public String helloWorld() {
-		return testService.hw();
-	}
+    public String helloWorld() {
+	return testService.hw();
+    }
 
 }

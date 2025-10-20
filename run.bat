@@ -1,4 +1,5 @@
 
+call npm run build
 call mvn clean package &
 call cd room-web &
 call docker build -t planning-room:1.0 -f .\docker\Dockerfile  . &

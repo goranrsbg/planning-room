@@ -4,11 +4,23 @@ export class SimpleGreeting extends LitElement {
     static properties = {
         version:        {type: String},
 		dataHelloWorld: {type: String, attribute: 'data-hello-world' },
+		socket:         {type: Object, attribute: false}, 
     };
+	
 
     constructor() {
         super();
         this.version = 'STARTING';
+		this.socket = new WebSocket('ws://localhost:8080/room/123456');
+		socket.addEventListener('open', (event) => {
+		           console.log('WebSocket connection established!', event);
+		           const data = {from: 'User1', content: 'hello world'};
+				   socket.send(JSON.stringify(data));
+		       });
+	    socket.addEventListener('message', (event) => {
+	               const data = JSON.parse(event.data);
+	               console.log('Message from server:', data);
+	           });
     }
 
     render() {
