@@ -11,13 +11,16 @@ export class SimpleGreeting extends LitElement {
     constructor() {
         super();
         this.version = 'STARTING';
-		this.socket = new WebSocket('ws://localhost:8080/room/123456');
-		socket.addEventListener('open', (event) => {
+        const wsUri = `ws://${location.host + location.pathname}room/123456`
+		this.socket = new WebSocket(wsUri);
+		this.socket.addEventListener('open', (event) => {
 		           console.log('WebSocket connection established!', event);
 		           const data = {from: 'User1', content: 'hello world'};
-				   socket.send(JSON.stringify(data));
+                   const dataString = JSON.stringify(data);
+                   console.log(dataString);
+                   this.socket.send(dataString);
 		       });
-	    socket.addEventListener('message', (event) => {
+	    this.socket.addEventListener('message', (event) => {
 	               const data = JSON.parse(event.data);
 	               console.log('Message from server:', data);
 	           });
