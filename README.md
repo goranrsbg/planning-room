@@ -7,28 +7,13 @@ Using \
 
 ### Run
 
-> npm run build
-
-> mvn clean install
-
-> cd room
-
-> mvn cargo:run
-
-- then
-
-```
-http://localhost:8080/planning-room-web
-https://localhost:8181/planning-room-web
-```
-
 #### Docker cli
 
-> ./run.sh
-
+> ./dockerStart.sh
+> ./dockerRemove.sh
 - then
 
 ``` 
-http://localhost:8080/planning-room-web
-https://localhost:8181/planning-room-web
+http://localhost:9090/planning-room-web
+https://localhost:9191/planning-room-web
 ```
