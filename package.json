@@ -6,7 +6,8 @@
     "lit": "^3.3.1"
   },
   "scripts": {
-    "build": "webpack"
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
