@@ -1,0 +1,21 @@
+services:
+  room:
+    image: room.app:1.0-SNAPSHOT
+    container_name: room-app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 9090:8080
+      - 9191:8181
+      - 4848:4848
+    networks: 
+      - room-network
+  
+networks:
+  room-network:
+    name: $NETWORK
+    driver: bridge
+    external: true
