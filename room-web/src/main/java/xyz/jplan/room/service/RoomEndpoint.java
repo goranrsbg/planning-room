@@ -17,12 +17,14 @@ import jakarta.websocket.server.ServerEndpoint;
 public class RoomEndpoint {
 
     private static Logger logger = LoggerFactory.getLogger(RoomEndpoint.class);
-
+    private static final String ROOM_ID = "ROOM_ID";
+    
     @OnOpen
     public void onOpen(Session session, @PathParam("roomId") String roomId) {
 	try {
 	    logger.info("New session id={0} room={1}", session.getId(), roomId);
 	    session.getBasicRemote().sendObject(new Message(roomId, "Hello from Room endpoint"));
+	    session.getUserProperties().put(ROOM_ID, roomId);
 	} catch (IOException | EncodeException e) {
 	    e.printStackTrace();
 	}
@@ -44,7 +46,9 @@ public class RoomEndpoint {
     private void broadcast(Session session, Message message) {
 	session.getOpenSessions().forEach(ses -> {
 	    try {
-		ses.getBasicRemote().sendObject(message);
+		if (ses.isOpen()) {
+		    ses.getBasicRemote().sendObject(message);
+		}
 	    } catch (IOException | EncodeException e) {
 		e.printStackTrace();
 	    }
