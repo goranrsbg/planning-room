@@ -10,8 +10,8 @@ import jakarta.websocket.Decoder;
 public class MessageDecoder implements Decoder.Text<Message> {
 
     private static final Jsonb jsonb = JsonbBuilder.create();
-    private static final Pattern pattern = Pattern
-	    .compile("\\{[\\n ]*\"from\" ?: ?\"[A-Za-z\\.0-9-+]*\",[\\n ]*\"content\" ?: ?\"[0-9]*\"[\\n ]*}");
+    private static final Pattern pattern = Pattern.compile(
+	    "\\{[\\n ]*\"(from|content)\" ?: ?\"[A-Za-z\\.0-9-+]*\",[\\n ]*\"(content|from)\" ?: ?\".*\"[\\n ]*}");
 
     @Override
     public Message decode(String s) throws DecodeException {

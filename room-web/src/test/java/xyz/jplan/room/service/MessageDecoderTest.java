@@ -74,6 +74,17 @@ class MessageDecoderTest {
     }
 
     @Test
+    void test_WillDecodeValid4() {
+	// GIVEN
+	String s = """
+		{"content":"goran-rs.bg123","from":"45"}""";
+	// WHEN
+	boolean actual = sut.willDecode(s);
+	// THEN
+	assertTrue(actual);
+    }
+
+    @Test
     void test_WillDecodeNotValid1() {
 	// GIVEN
 	String s = """
