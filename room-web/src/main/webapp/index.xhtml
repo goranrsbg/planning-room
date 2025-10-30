@@ -7,14 +7,17 @@
             <f:viewAction action="#{welcomeBean.init()}"/>
         </f:metadata>
     </ui:define>
-    <ui:define name="headIncludes">
-        <script type="module" src="app.bundle.js"/>
-    </ui:define>
     <ui:define name="pageTitle">#{welcomeBean.title}</ui:define>
+     <ui:define name="headIncludes">
+        <link rel="stylesheet" type="text/css" href="app.css" />    
+    </ui:define>
     <ui:define name="content">
         <h2>Welcome | Under construction...</h2>
         <p>Welcome #{welcomeBean.hello()}</p>
         <p>Welcome #{welcomeBean.helloFromIn()}</p>
         <s-g data-hello-world="#{welcomeBean.helloWorld()}" version="GL HF"></s-g>
+    </ui:define>
+    <ui:define name="bodyIncludes">
+        <script type="module" src="app.bundle.js"/>    
     </ui:define>
 </ui:composition>
