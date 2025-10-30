@@ -2,9 +2,6 @@ package xyz.jplan.room.service;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.websocket.EncodeException;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnMessage;
@@ -16,13 +13,12 @@ import jakarta.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/room/{roomId}", decoders = MessageDecoder.class, encoders = MessageEncoder.class)
 public class RoomEndpoint {
 
-    private static Logger logger = LoggerFactory.getLogger(RoomEndpoint.class);
     private static final String ROOM_ID = "ROOM_ID";
-    
+    private static final String USER_NAME = "USER_NAME";
+
     @OnOpen
     public void onOpen(Session session, @PathParam("roomId") String roomId) {
 	try {
-	    logger.info("New session id={0} room={1}", session.getId(), roomId);
 	    session.getBasicRemote().sendObject(new Message(roomId, "Hello from Room endpoint"));
 	    session.getUserProperties().put(ROOM_ID, roomId);
 	} catch (IOException | EncodeException e) {
@@ -32,15 +28,15 @@ public class RoomEndpoint {
 
     @OnMessage
     public void onMessage(Session session, Message message) {
-	logger.info("Recived session id={0} message={1}", session.getId(), message.toString());
+	session.getUserProperties().putIfAbsent(USER_NAME, message.getFrom());
 	broadcast(session, message);
     }
 
     @OnClose
     public void onClose(Session session) {
-	logger.info("Session to close id={0}", session.getId());
 	String roomId = session.getPathParameters().get("roomId");
-	broadcast(session, new Message(roomId, "Disconnected!"));
+	broadcast(session,
+		new Message(roomId, session.getUserProperties().getOrDefault(USER_NAME, "") + ", disconnected!"));
     }
 
     private void broadcast(Session session, Message message) {
