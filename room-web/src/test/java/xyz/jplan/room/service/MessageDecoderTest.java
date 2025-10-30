@@ -1,9 +1,12 @@
 package xyz.jplan.room.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+
+import jakarta.websocket.DecodeException;
 
 class MessageDecoderTest {
 
@@ -110,7 +113,7 @@ class MessageDecoderTest {
     void test_WillDecodeNotValid3() {
 	// GIVEN
 	String s = """
-		{"from":"goran-rs.bg123","content":"45a"}""";
+		{"from":"goran-rs.bg+123!","content":"45a"}""";
 	// WHEN
 	boolean actual = sut.willDecode(s);
 	// THEN
@@ -126,6 +129,18 @@ class MessageDecoderTest {
 	boolean actual = sut.willDecode(s);
 	// THEN
 	assertFalse(actual);
+    }
+
+    @Test
+    void test_DecodeValid1() throws DecodeException {
+	// GIVEN
+	String s = """
+		{"content":"goran-rs.bg123","from":"45"}""";
+	// WHEN
+	Message actual = sut.decode(s);
+	// THEN
+	assertEquals("goran-rs.bg123", actual.getContent());
+	assertEquals("45", actual.getFrom());
     }
 
     MessageDecoder sut = new MessageDecoder();
