@@ -4,6 +4,7 @@ package-lock.json
 *.orig
 room-web/src/main/webapp/app.bundle.js
 room-web/src/main/webapp/app.bundle.js.LICENSE.txt
+room-web/src/main/webapp/app.css
 # Idea IDE
 .idea
 # Eclipse IDE
