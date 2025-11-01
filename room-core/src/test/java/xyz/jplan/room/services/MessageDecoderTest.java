@@ -1,4 +1,4 @@
-package xyz.jplan.room.service;
+package xyz.jplan.room.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import jakarta.websocket.DecodeException;
+import xyz.jplan.room.services.data.Message;
 
 class MessageDecoderTest {
 
@@ -45,8 +46,8 @@ class MessageDecoderTest {
 	// GIVEN
 	String s = """
 		{
-		"from" : "goran.rs.bg",
-		"content" : "450"
+		"action" : "SET_NAME",
+		"data" : "450"
 		}""";
 	// WHEN
 	boolean actual = sut.willDecode(s);
@@ -58,7 +59,7 @@ class MessageDecoderTest {
     void test_WillDecodeValid2() {
 	// GIVEN
 	String s = """
-		{"from":"goran.rs.bg","content":"450"}""";
+		{"action":"CREATE_ROOM","data":"450011"}""";
 	// WHEN
 	boolean actual = sut.willDecode(s);
 	// THEN
@@ -69,7 +70,7 @@ class MessageDecoderTest {
     void test_WillDecodeValid3() {
 	// GIVEN
 	String s = """
-		{"from":"goran-rs.bg123","content":"45"}""";
+		{"data":"Message to test.","action":"SEND_MESSAGE"}""";
 	// WHEN
 	boolean actual = sut.willDecode(s);
 	// THEN
@@ -80,7 +81,7 @@ class MessageDecoderTest {
     void test_WillDecodeValid4() {
 	// GIVEN
 	String s = """
-		{"content":"goran-rs.bg123","from":"45"}""";
+		{"action":"SEND_MESSAGE","data":"Test message"}""";
 	// WHEN
 	boolean actual = sut.willDecode(s);
 	// THEN
@@ -91,7 +92,7 @@ class MessageDecoderTest {
     void test_WillDecodeNotValid1() {
 	// GIVEN
 	String s = """
-		{"fromm":"goran-rs.bg123","content":"45"}""";
+		{"action":"create_room","data":"123456"}""";
 	// WHEN
 	boolean actual = sut.willDecode(s);
 	// THEN
@@ -102,7 +103,7 @@ class MessageDecoderTest {
     void test_WillDecodeNotValid2() {
 	// GIVEN
 	String s = """
-		{"from":"goran-rs.bg123","ccontent":"45"}""";
+		{"action":"SET_NAME","datx":"45"}""";
 	// WHEN
 	boolean actual = sut.willDecode(s);
 	// THEN
@@ -113,7 +114,7 @@ class MessageDecoderTest {
     void test_WillDecodeNotValid3() {
 	// GIVEN
 	String s = """
-		{"from":"goran-rs.bg+123!","content":"45a"}""";
+		{"action":"CREATE_ROOMm","data":"45a"}""";
 	// WHEN
 	boolean actual = sut.willDecode(s);
 	// THEN
@@ -124,7 +125,7 @@ class MessageDecoderTest {
     void test_WillDecodeNotValid4() {
 	// GIVEN
 	String s = """
-		{"from":"goran/-rs.bg123","content":"45"}""";
+		{"data":"ASD","dataa":"ASDF"}""";
 	// WHEN
 	boolean actual = sut.willDecode(s);
 	// THEN
@@ -135,12 +136,12 @@ class MessageDecoderTest {
     void test_DecodeValid1() throws DecodeException {
 	// GIVEN
 	String s = """
-		{"content":"goran-rs.bg123","from":"45"}""";
+		{"data":"Test message","action":"SEND_MESSAGE"}""";
 	// WHEN
 	Message actual = sut.decode(s);
 	// THEN
-	assertEquals("goran-rs.bg123", actual.getContent());
-	assertEquals("45", actual.getFrom());
+	assertEquals("SEND_MESSAGE", actual.getAction());
+	assertEquals("Test message", actual.getData());
     }
 
     MessageDecoder sut = new MessageDecoder();

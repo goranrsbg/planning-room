@@ -40,7 +40,7 @@ export class SimpleGreeting extends LitElement {
     }
     
     connect() {
-        let wsUri = 'ws://${location.host + location.pathname}room/123456'
+        let wsUri = `ws://${location.host + location.pathname}room/123456/planning`
         this.socket = new WebSocket(wsUri);
         this.socket.addEventListener('open', (event) => {
                            console.log('WebSocket connection established!', event);

@@ -7,7 +7,6 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import xyz.jplan.room.service.InTest;
-import xyz.jplan.room.services.TestService;
 
 @Named("welcomeBean")
 @ViewScoped
@@ -19,9 +18,6 @@ public class Welcome implements Serializable {
     private static final long serialVersionUID = 101L;
 
     @Inject
-    private TestService testService;
-
-    @Inject
     private InTest inTest;
 
     private String title;
@@ -31,7 +27,7 @@ public class Welcome implements Serializable {
     }
 
     public String hello() {
-	return testService.hello();
+	return "HI";
     }
 
     public String helloFromIn() {
@@ -43,7 +39,7 @@ public class Welcome implements Serializable {
     }
 
     public String helloWorld() {
-	return testService.hw();
+	return "Hi hi";
     }
 
 }

@@ -1,4 +1,4 @@
-package xyz.jplan.room.service;
+package xyz.jplan.room.services;
 
 import java.io.IOException;
 
@@ -9,8 +9,9 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
+import xyz.jplan.room.services.data.Message;
 
-@ServerEndpoint(value = "/room/{roomId}", decoders = MessageDecoder.class, encoders = MessageEncoder.class)
+@ServerEndpoint(value = "/room/{roomId}/planning", decoders = MessageDecoder.class, encoders = MessageEncoder.class)
 public class RoomEndpoint {
 
     private static final String ROOM_ID = "ROOM_ID";

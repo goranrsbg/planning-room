@@ -1,4 +1,4 @@
-package xyz.jplan.room.service;
+package xyz.jplan.room.services;
 
 import java.util.regex.Pattern;
 
@@ -6,12 +6,13 @@ import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.websocket.DecodeException;
 import jakarta.websocket.Decoder;
+import xyz.jplan.room.services.data.Message;
 
-public class MessageDecoder implements Decoder.Text<Message> {
+class MessageDecoder implements Decoder.Text<Message> {
 
     private static final Jsonb jsonb = JsonbBuilder.create();
     private static final Pattern pattern = Pattern.compile(
-	    "\\{[\\n ]*\"(from|content)\" ?: ?\"[A-Za-z\\.0-9-+]*\",[\\n ]*\"(content|from)\" ?: ?\".*\"[\\n ]*}");
+	    "\\{[\n ]*\"action\" ?: ?\"[A-Z_]+\",[\n ]*\"data\" ?: ?\".{1,126}\"[\n ]*}|\\{[\n ]*\"data\" ?: ?\".{1,126}\",[\n ]*\"action\" ?: ?\"[A-Z_]+\"}");
 
     @Override
     public Message decode(String s) throws DecodeException {
