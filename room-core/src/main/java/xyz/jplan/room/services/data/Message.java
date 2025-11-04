@@ -30,6 +30,16 @@ public class Message {
 	this.data = data;
     }
 
+    public Message withData(String data) {
+	this.data = data;
+	return this;
+    }
+
+    public Message withAction(String action) {
+	this.action = action;
+	return this;
+    }
+
     @Override
     public String toString() {
 	return "{action=" + action + ", data=" + data + "}";
