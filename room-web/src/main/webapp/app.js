@@ -4,18 +4,23 @@ import "./app.scss";
 export class PlanningRoom extends LitElement {
     static properties = {
 		socket:         {type: Object, attribute: false},
-        sendValue:      {type: String, attribute: false},
+        chatValue:      {type: String, attribute: false},
         storyValue:     {type: String, attribute: false},
         nameValue:      {type: String, attribute: false},
         name:           {type: String, attribute: false},
+        roomValue:      {type: String, attribute: false},
+        room:           {type: String, attribute: false},
     };
 	
     constructor() {
         super();
-        this.sendValue = "";
+        this.chatValue = "";
         this.storyValue = "";
         this.nameValue = "";
         this.name = "";
+        this.roomValue = "";
+        this.room = "";
+        this.connect();
     }
     
     createRenderRoot() {
@@ -27,13 +32,15 @@ export class PlanningRoom extends LitElement {
             <div class="col">
               <label for="story">Story:</label>
               <textarea id="story" name="story" rows="17" cols="37" .value=${this.storyValue}></textarea>
-              <input type="text" size="37" .value=${this.sendValue} @input=${this._handleInput} />
-              <input type="text" size="37" .value=${this.nameValue} @input=${this._handleNameInput} />
+              <input type="text" size="37" .value=${this.chatValue} @input=${this._handleChatInput} />
+              <input id="input-name" type="text" size="37" .value=${this.nameValue} @input=${this._handleNameInput} />
               <label>${this.name}</label>
+              <input id="input-room" type="text" size="37" .value=${this.roomValue} @input=${this._handleRoomInput} />
+              <label>${this.room}</label>
               <div class="row">
-                <button type="button" @click="${this.connect}">Connect</button>
+                <button id="btn-room" type="button" @click="${this.createRoom}">Create Room</button>
                 <button type="button" @click="${this.sendMessage}">Send</button>
-                <button type="button" @click="${this.sendName}">Send name</button>
+                <button id="btn-name" type="button" @click="${this.sendName}">Send name</button>
               </div>
             </div>
         `;
@@ -51,6 +58,17 @@ export class PlanningRoom extends LitElement {
                            switch(data.action) {
                                case 'NAME_IS_SET':
                                   this.name = data.data;
+                                  const inp = document.getElementById("input-name");
+                                  const btn = document.getElementById("btn-name");
+                                  inp.classList.add("hide");
+                                  btn.classList.add("hide");
+                                  break;
+                               case 'ROOM_CREATED':
+                                  this.room = data.data;
+                                  const inpr = document.getElementById("input-room");
+                                  const btnr = document.getElementById("btn-room");
+                                  inpr.classList.add("hide");
+                                  btnr.classList.add("hide");
                                   break;
                                case 'CHAT':
                                   this.storyValue += `${data.data}\n`;
@@ -61,11 +79,11 @@ export class PlanningRoom extends LitElement {
     }
     
     sendMessage() {
-        const data = {action: 'CHAT', data: `${this.sendValue.trim()}`};
+        const data = {action: 'CHAT', data: `${this.chatValue}`};
         const dataString = JSON.stringify(data);
         console.log(dataString);
         this.socket.send(dataString);
-        this.sendValue = "";
+        this.chatValue = "";
     }
     sendName() {
         const data = {action: 'SET_NAME', data: `${this.nameValue}`};
@@ -74,13 +92,23 @@ export class PlanningRoom extends LitElement {
         this.socket.send(dataString);
         this.nameValue = "";
     }
+    createRoom() {
+        const data = {action: 'CREATE_ROOM', data: `${this.roomValue}`};
+        const dataString = JSON.stringify(data);
+        console.log(dataString);
+        this.socket.send(dataString);
+        this.roomValue = "";
+    }
     
-    _handleInput(e) {
-        this.sendValue = e.target.value;
+    _handleChatInput(e) {
+        this.chatValue = e.target.value;
     }
     _handleNameInput(e) {
         this.nameValue = e.target.value;
     }
+    _handleRoomInput(e) {
+            this.roomValue = e.target.value;
+        }
 }
 
 customElements.define('planning-room', PlanningRoom);
