@@ -47,7 +47,7 @@ public class RoomEndpoint {
 		    session.getBasicRemote().sendObject(new Message("NAME_NOT_VALID", name));
 		}
 	    }
-	    case "CRETE_ROOM" -> {
+	    case "CREATE_ROOM" -> {
 		String room = message.getData();
 		session.getUserProperties().put(ROOM_ID, room);
 		session.getBasicRemote().sendObject(new Message("ROOM_CREATED", room));
