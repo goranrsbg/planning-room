@@ -9,7 +9,12 @@ export class PlanningRoom extends LitElement {
         storyValue:     {type: String, attribute: false},
         nameValue:      {type: String, attribute: false},
         name:           {type: String, attribute: false},
-        roomValue:      {type: String, attribute: false},
+        roomOneValue:   {type: String, attribute: false},
+        roomTwoValue:   {type: String, attribute: false},
+        roomThreeValue: {type: String, attribute: false},
+        roomFourValue:  {type: String, attribute: false},
+        roomFiveValue:  {type: String, attribute: false},
+        roomSixValue:   {type: String, attribute: false},
         room:           {type: String, attribute: false},
     };
 	
@@ -20,7 +25,7 @@ export class PlanningRoom extends LitElement {
         this.storyValue = "";
         this.nameValue = "";
         this.name = "";
-        this.roomValue = "";
+        this.clearRoom();
         this.room = "";
         this.socket = {};
         this.connect();
@@ -36,18 +41,34 @@ export class PlanningRoom extends LitElement {
               <label>${this.version}</label>
               <label for="story">Story:</label>
               <textarea id="story" name="story" rows="17" cols="37" .value=${this.storyValue}></textarea>
-              <input type="text" size="37" .value=${this.chatValue} @input=${this._handleChatInput} />
-              <input id="input-name" type="text" size="37" .value=${this.nameValue} @input=${this._handleNameInput} />
+              <input placeholder="message" type="text" size="37" .value=${this.chatValue} @input=${this._handleChatInput} />
+              <input id="input-name" placeholder="name" type="text" size="37" .value=${this.nameValue} @input=${this._handleNameInput} />
               <label>${this.name}</label>
-              <input id="input-room" type="text" size="37" .value=${this.roomValue} @input=${this._handleRoomInput} />
+              <div id="input-room" class="row">
+                <input type="number" size="1" .value=${this.roomOneValue} @input=${this._handleRoomOneInput} />
+                <input type="number" size="1" .value=${this.roomTwoValue} @input=${this._handleRoomTwoInput} />
+                <input type="number" size="1" .value=${this.roomThreeValue} @input=${this._handleRoomThreeInput} />
+                <input type="number" size="1" .value=${this.roomFourValue} @input=${this._handleRoomFourInput} />
+                <input type="number" size="1" .value=${this.roomFiveValue} @input=${this._handleRoomFiveInput} />
+                <input type="number" size="1" .value=${this.roomSixValue} @input=${this._handleRoomSixInput} />
+              </div>
               <label>${this.room}</label>
               <div class="row">
                 <button id="btn-room" type="button" @click="${this.createRoom}">Create Room</button>
-                <button type="button" @click="${this.sendMessage}">Send</button>
+                <button type="button" @click="${this.sendMessage}">Send message</button>
                 <button id="btn-name" type="button" @click="${this.sendName}">Send name</button>
               </div>
             </div>
         `;
+    }
+    
+    clearRoom() {
+        this.roomOneValue = "";
+        this.roomTwoValue = "";
+        this.roomThreeValue = "";
+        this.roomFourValue = "";
+        this.roomFiveValue = "";
+        this.roomSixValue = "";
     }
     
     connect() {
@@ -97,11 +118,11 @@ export class PlanningRoom extends LitElement {
         this.nameValue = "";
     }
     createRoom() {
-        const data = {action: 'CREATE_ROOM', data: `${this.roomValue}`};
+        const data = {action: 'CREATE_ROOM', data: `${this.roomOneValue}${this.roomTwoValue}${this.roomThreeValue}${this.roomFourValue}${this.roomFiveValue}${this.roomSixValue}`};
         const dataString = JSON.stringify(data);
         console.log(dataString);
         this.socket.send(dataString);
-        this.roomValue = "";
+        this.clearRoom();
     }
     
     _handleChatInput(e) {
@@ -110,9 +131,24 @@ export class PlanningRoom extends LitElement {
     _handleNameInput(e) {
         this.nameValue = e.target.value;
     }
-    _handleRoomInput(e) {
-            this.roomValue = e.target.value;
-        }
+    _handleRoomOneInput(e) {
+        this.roomOneValue = e.target.value;
+    }
+    _handleRoomTwoInput(e) {
+        this.roomTwoValue = e.target.value;
+    }
+    _handleRoomThreeInput(e) {
+        this.roomThreeValue = e.target.value;
+    }
+    _handleRoomFourInput(e) {
+        this.roomFourValue = e.target.value;
+    }
+    _handleRoomFiveInput(e) {
+        this.roomFiveValue = e.target.value;
+    }
+    _handleRoomSixInput(e) {
+        this.roomSixValue = e.target.value;
+    }
 }
 
 customElements.define('planning-room', PlanningRoom);
