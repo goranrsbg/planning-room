@@ -17,5 +17,15 @@ class ValidatorTest {
 	assertEquals(expected, actual);
     }
 
+    @ParameterizedTest
+    @CsvSource({ "123456,true", ",false", "12345,false", "123 456,false", "1234567,false" })
+    void isRoomIdValid_TESTYesNoValid(String roomId, boolean expected) {
+	// GIVEN
+	// WHEN
+	boolean actual = sut.isRoomIdValid(roomId);
+	// THEN
+	assertEquals(expected, actual);
+    }
+
     Validator sut = new Validator();
 }
