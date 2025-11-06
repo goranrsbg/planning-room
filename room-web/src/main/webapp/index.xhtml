@@ -7,12 +7,12 @@
             <f:viewAction action="#{welcomeBean.init()}"/>
         </f:metadata>
     </ui:define>
-    <ui:define name="pageTitle">#{welcomeBean.title}</ui:define>
+    <ui:define name="pageTitle">#{welcome.title}</ui:define>
      <ui:define name="headIncludes">
         <link rel="stylesheet" type="text/css" href="app.css" />    
     </ui:define>
     <ui:define name="content">
-        <planning-room></planning-room>
+        <planning-room version="#{welcome.version}"></planning-room>
     </ui:define>
     <ui:define name="bodyIncludes">
         <script type="module" src="app.bundle.js"/>    

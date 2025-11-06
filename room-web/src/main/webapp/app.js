@@ -3,6 +3,7 @@ import "./app.scss";
 
 export class PlanningRoom extends LitElement {
     static properties = {
+        version:        {type: String},
 		socket:         {type: Object, attribute: false},
         chatValue:      {type: String, attribute: false},
         storyValue:     {type: String, attribute: false},
@@ -14,12 +15,14 @@ export class PlanningRoom extends LitElement {
 	
     constructor() {
         super();
+        this.version = "0.0.0v";
         this.chatValue = "";
         this.storyValue = "";
         this.nameValue = "";
         this.name = "";
         this.roomValue = "";
         this.room = "";
+        this.socket = {};
         this.connect();
     }
     
@@ -30,6 +33,7 @@ export class PlanningRoom extends LitElement {
     render() {
         return html`
             <div class="col">
+              <label>${this.version}</label>
               <label for="story">Story:</label>
               <textarea id="story" name="story" rows="17" cols="37" .value=${this.storyValue}></textarea>
               <input type="text" size="37" .value=${this.chatValue} @input=${this._handleChatInput} />
