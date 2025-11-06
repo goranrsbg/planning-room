@@ -3,7 +3,9 @@ package xyz.jplan.room.view;
 import java.io.Serializable;
 
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 
+@Named("welcome")
 @ViewScoped
 public class Welcome implements Serializable {
 
