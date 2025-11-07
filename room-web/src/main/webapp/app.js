@@ -44,13 +44,13 @@ export class PlanningRoom extends LitElement {
               <input placeholder="message" type="text" size="37" .value=${this.chatValue} @input=${this._handleChatInput} />
               <input id="input-name" placeholder="name" type="text" size="37" .value=${this.nameValue} @input=${this._handleNameInput} />
               <label>${this.name}</label>
-              <div id="input-room" class="row">
-                <input type="number" size="1" .value=${this.roomOneValue} @input=${this._handleRoomOneInput} />
-                <input type="number" size="1" .value=${this.roomTwoValue} @input=${this._handleRoomTwoInput} />
-                <input type="number" size="1" .value=${this.roomThreeValue} @input=${this._handleRoomThreeInput} />
-                <input type="number" size="1" .value=${this.roomFourValue} @input=${this._handleRoomFourInput} />
-                <input type="number" size="1" .value=${this.roomFiveValue} @input=${this._handleRoomFiveInput} />
-                <input type="number" size="1" .value=${this.roomSixValue} @input=${this._handleRoomSixInput} />
+              <div class="room-id">
+                <input id="input-one"   type="number" size="1" .value=${this.roomOneValue} @input=${this._handleRoomOneInput} />
+                <input id="input-two"   type="number" size="1" .value=${this.roomTwoValue} @input=${this._handleRoomTwoInput} />
+                <input id="input-three" type="number" size="1" .value=${this.roomThreeValue} @input=${this._handleRoomThreeInput} />
+                <input id="input-four"  type="number" size="1" .value=${this.roomFourValue} @input=${this._handleRoomFourInput} />
+                <input id="input-five"  type="number" size="1" .value=${this.roomFiveValue} @input=${this._handleRoomFiveInput} />
+                <input id="input-six"   type="number" size="1" .value=${this.roomSixValue} @input=${this._handleRoomSixInput} />
               </div>
               <label>${this.room}</label>
               <div class="row">
@@ -90,9 +90,19 @@ export class PlanningRoom extends LitElement {
                                   break;
                                case 'ROOM_CREATED':
                                   this.room = data.data;
-                                  const inpr = document.getElementById("input-room");
+                                  const inpr1 = document.getElementById("input-one");
+                                  const inpr2 = document.getElementById("input-two");
+                                  const inpr3 = document.getElementById("input-three");
+                                  const inpr4 = document.getElementById("input-four");
+                                  const inpr5 = document.getElementById("input-five");
+                                  const inpr6 = document.getElementById("input-six");
                                   const btnr = document.getElementById("btn-room");
-                                  inpr.classList.add("hide");
+                                  inpr1.classList.add("hide");
+                                  inpr2.classList.add("hide");
+                                  inpr3.classList.add("hide");
+                                  inpr4.classList.add("hide");
+                                  inpr5.classList.add("hide");
+                                  inpr6.classList.add("hide");
                                   btnr.classList.add("hide");
                                   break;
                                case 'CHAT':
@@ -118,7 +128,8 @@ export class PlanningRoom extends LitElement {
         this.nameValue = "";
     }
     createRoom() {
-        const data = {action: 'CREATE_ROOM', data: `${this.roomOneValue}${this.roomTwoValue}${this.roomThreeValue}${this.roomFourValue}${this.roomFiveValue}${this.roomSixValue}`};
+        const roomId = `${this.roomOneValue}${this.roomTwoValue}${this.roomThreeValue}${this.roomFourValue}${this.roomFiveValue}${this.roomSixValue}`
+        const data = {action: 'CREATE_ROOM', data: roomId};
         const dataString = JSON.stringify(data);
         console.log(dataString);
         this.socket.send(dataString);
