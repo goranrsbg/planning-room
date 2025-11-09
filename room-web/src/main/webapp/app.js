@@ -72,8 +72,8 @@ export class PlanningRoom extends LitElement {
             <div id="planning-room" class="col hide">
               <textarea name="story" rows="17" cols="37" .value=${this.storyValue}></textarea>
               <div class="row">
-                <input placeholder="message" type="text" size="37" .value=${this.chatValue} @input=${this._handleChatInput} />
-                <button type="button" @click="${this.sendMessage}">Send message</button>
+                <input placeholder="message" type="text" size="37" .value=${this.chatValue} @input=${this._handleChatInput} @keypress="${this._handleChatEnter}" />
+                <button id="chat-btn" type="button" @click="${this.sendMessage}">Send message</button>
               </div>
               <label>${this.room}</label>
               ${this.players.map(pl => html`<div>${pl}</div>`)}
@@ -204,6 +204,13 @@ export class PlanningRoom extends LitElement {
     }
     _handleRoomSixInput(e) {
         this.roomSixValue = e.target.value;
+    }
+    _handleChatEnter(e) {
+        if(e.key === "Enter") {
+            e.preventDefault();
+            const chatBtn = document.getElementById("chat-btn");
+            chatBtn.click();
+        }   
     }
 }
 
