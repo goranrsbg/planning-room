@@ -19,20 +19,35 @@ body {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
-.room-id {
+.room-numbers {
     display: flex;
     flex-direction: row;
     input[type="number"] {
         width: 1rem;
         border: none;
         font-size: 1rem;
+        text-align: center;
     }
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
+}
+main {
+    height: 100%;
+}
+
+footer {
+    position: absolute;
+    background: transparent;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    width: fit-content;
+    font-size: 0.8rem;
 }
