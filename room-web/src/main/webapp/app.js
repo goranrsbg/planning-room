@@ -30,7 +30,15 @@ export class PlanningRoom extends LitElement {
         this.room = "";
         this.socket = {};
         this.players = [];
+    }
+    
+    connectedCallback() {
+        super.connectedCallback()
         this.connect();
+    }
+    
+    firstUpdated() {
+        this.setPaste();        
     }
     
     createRenderRoot() {
@@ -48,7 +56,7 @@ export class PlanningRoom extends LitElement {
               </div>
               <label>${this.name}</label>
               <div id="room-id" class="room-numbers hide">
-                <input type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomOneValue} @input=${this._handleRoomOneInput} />
+                <input id="first-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomOneValue} @input=${this._handleRoomOneInput} />
                 <input type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomTwoValue} @input=${this._handleRoomTwoInput} />
                 <input type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomThreeValue} @input=${this._handleRoomThreeInput} />
                 <input type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomFourValue} @input=${this._handleRoomFourInput} />
@@ -73,6 +81,25 @@ export class PlanningRoom extends LitElement {
         `;
     }
     
+    setPaste() {
+        const firstNum = document.getElementById("first-num");
+                firstNum.addEventListener("paste", (event) => {
+                   event.preventDefault();
+                   const pastedText = event.clipboardData.getData('text/plain');
+                   for(let i=0; i < pastedText.length; i++) {
+                       const ch = pastedText[i];
+                       switch(i) {
+                           case 0: this.roomOneValue = ch; break;
+                           case 1: this.roomTwoValue = ch; break;
+                           case 2: this.roomThreeValue = ch; break;
+                           case 3: this.roomFourValue = ch; break;
+                           case 4: this.roomFiveValue = ch; break;
+                           case 5: this.roomSixValue = ch; break;
+                       }
+                   }
+                });
+    }
+    
     clearRoom() {
         this.roomOneValue = "";
         this.roomTwoValue = "";
@@ -90,7 +117,6 @@ export class PlanningRoom extends LitElement {
                         });
         this.socket.addEventListener('message', (event) => {
                            const message = JSON.parse(event.data);
-                           console.log('Message from server:', message);
                            switch(message.action) {
                                case 'NAME_IS_SET':
                                   this.name = message.data;
