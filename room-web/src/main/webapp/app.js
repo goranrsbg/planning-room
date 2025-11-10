@@ -75,8 +75,8 @@ export class PlanningRoom extends LitElement {
                 <input placeholder="message" type="text" size="37" .value=${this.chatValue} @input=${this._handleChatInput} @keypress="${this._handleChatEnter}" />
                 <button id="chat-btn" type="button" @click="${this.sendMessage}">Send message</button>
               </div>
-              <label>${this.room}</label>
-              ${this.players.map(pl => html`<div>${pl}</div>`)}
+              <h1><label>${this.room}</label></h1>
+              ${this.players.map(pl => html`<div class="player-name">${pl}</div>`)}
             </div>
         `;
     }

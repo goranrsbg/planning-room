@@ -1,7 +1,73 @@
-$body-color: whitesmoke;
+@font-face {
+    font-family: 'OpenSans';
+    src: local('OpenSans'),
+         url('./assets/fonts/OpenSans-Regular.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OpenSansLight';
+    src: local('OpenSansLight'),
+         url('./assets/fonts/OpenSans-Light.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OpenSansBold';
+    src: local('OpenSansBold'),
+         url('./assets/fonts/OpenSans-Bold.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OpenSansC';
+    src: local('OpenSansC'),
+         url('./assets/fonts/OpenSans_Condensed-Regular.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OpenSansCLight';
+    src: local('OpenSansCLight'),
+         url('./assets/fonts/OpenSans_Condensed-Light.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OpenSansCBold';
+    src: local('OpenSansCBold'),
+         url('./assets/fonts/OpenSans_Condensed-Bold.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+html {
+    font-size: 16px;
+}
 
 body {
-    background-color: $body-color;
+    background-image: url('./assets/bg.jpg');
+    font-family: 'OpenSans', sans-serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    margin: 0;
+    height: 100vh;
+}
+
+h1 {
+    font-family: 'OpenSansLight', sans-serif;
+}
+
+h4 {
+    font-family: 'OpenSansBold', sans-serif;
 }
 
 .row {
@@ -37,8 +103,10 @@ body {
         margin: 0;
     }
 }
-main {
-    height: 100%;
+
+.player-name {
+    font-family: 'OpenSansLight', sans-serif;
+    font-size: 1rem;
 }
 
 footer {
