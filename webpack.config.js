@@ -41,12 +41,13 @@ module.exports = {
          MiniCssExtractPlugin.loader,
          "css-loader",
          "sass-loader",
-       ],
-     },
+         ],
+       },
        // ... other asset loaders
      ],
    },
   output: {
+    assetModuleFilename: 'assets/[name][ext]',
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, './room-web/src/main/webapp'),
     clean: false,
