@@ -104,9 +104,33 @@ h4 {
     }
 }
 
-.player-name {
-    font-family: 'OpenSansLight', sans-serif;
-    font-size: 1rem;
+.players {
+    .player {
+        font-family: 'OpenSansLight', sans-serif;
+        font-size: 1rem;
+    }
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    grid-auto-rows: auto;
+    column-gap: 3px;
+    row-gap: 3px;
+    place-items: center;
+    justify-content: center;
+    align-items: center;
+    .card {
+        background-image: url('./assets/theCard.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 60px;
+        height: 90px;
+        color: whitesmoke;
+        font-size: 2rem;
+    }
 }
 
 footer {
