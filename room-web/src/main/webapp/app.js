@@ -17,6 +17,7 @@ export class PlanningRoom extends LitElement {
         roomSixValue:   {type: String, attribute: false},
         room:           {type: String, attribute: false},
         players:        {type: Array,  attribute: false},
+        cards:          {type: Array,  attribute: false},
     };
 	
     constructor() {
@@ -30,14 +31,11 @@ export class PlanningRoom extends LitElement {
         this.room = "";
         this.socket = {};
         this.players = [];
-    }
-    
-    connectedCallback() {
-        super.connectedCallback()
-        this.connect();
+        this.cards = ['0','0.5','1','1.5','2','2.5','3','3.5','4','4.5','5','8','13','21','34','55'];
     }
     
     firstUpdated() {
+        this.connect();
         this.setPaste();        
     }
     
@@ -51,17 +49,17 @@ export class PlanningRoom extends LitElement {
             <label>${this.version}</label>
             <div id="join-room" class="col">
               <div id="send-name" class="row">
-                <input placeholder="name" type="text" size="12" .value=${this.nameValue} @input=${this._handleNameInput} />
-                <button type="button" @click="${this.sendName}">Send name</button>
+                <input placeholder="name" type="text" size="12" .value=${this.nameValue} @input=${this._handleNameInput} @keypress="${this._handleNameEnter}" />
+                <button id="name-btn" type="button" @click="${this.sendName}">Send name</button>
               </div>
               <label>${this.name}</label>
               <div id="room-id" class="room-numbers hide">
-                <input id="first-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomOneValue} @input=${this._handleRoomOneInput} />
-                <input type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomTwoValue} @input=${this._handleRoomTwoInput} />
-                <input type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomThreeValue} @input=${this._handleRoomThreeInput} />
-                <input type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomFourValue} @input=${this._handleRoomFourInput} />
-                <input type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomFiveValue} @input=${this._handleRoomFiveInput} />
-                <input type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomSixValue} @input=${this._handleRoomSixInput} />
+                <input id="one-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomOneValue} @input=${this._handleRoomOneInput} />
+                <input id="two-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomTwoValue} @input=${this._handleRoomTwoInput} />
+                <input id="third-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomThreeValue} @input=${this._handleRoomThreeInput} />
+                <input id="four-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomFourValue} @input=${this._handleRoomFourInput} />
+                <input id="five-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomFiveValue} @input=${this._handleRoomFiveInput} />
+                <input id="six-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomSixValue} @input=${this._handleRoomSixInput} />
                 <div class="row">
                   <button type="button" @click="${this.joinRoom}">Join Room</button>
                   <button type="button" @click="${this.createRoom}">Create Room</button>
@@ -75,29 +73,68 @@ export class PlanningRoom extends LitElement {
                 <input placeholder="message" type="text" size="37" .value=${this.chatValue} @input=${this._handleChatInput} @keypress="${this._handleChatEnter}" />
                 <button id="chat-btn" type="button" @click="${this.sendMessage}">Send message</button>
               </div>
-              <h1><label>${this.room}</label></h1>
-              ${this.players.map(pl => html`<div class="player-name">${pl}</div>`)}
+              <h1>${this.room}</h1>
+              <div class="players">
+                ${this.players.map(player => html`<div class="player">${player}</div>`)}
+              </div>
+              <div class="cards">
+                ${this.cards.map(card => html`<h4 data-card-value=${card} @click="${this._handleCardClick}" class="card row">${card}</h4>`)}
+              </div>
             </div>
         `;
     }
     
     setPaste() {
-        const firstNum = document.getElementById("first-num");
-                firstNum.addEventListener("paste", (event) => {
-                   event.preventDefault();
-                   const pastedText = event.clipboardData.getData('text/plain');
-                   for(let i=0; i < pastedText.length; i++) {
-                       const ch = pastedText[i];
-                       switch(i) {
-                           case 0: this.roomOneValue = ch; break;
-                           case 1: this.roomTwoValue = ch; break;
-                           case 2: this.roomThreeValue = ch; break;
-                           case 3: this.roomFourValue = ch; break;
-                           case 4: this.roomFiveValue = ch; break;
-                           case 5: this.roomSixValue = ch; break;
-                       }
-                   }
-                });
+        const oneNum = document.getElementById("one-num");
+        const twoNum = document.getElementById("two-num");
+        const thirdNum = document.getElementById("third-num");
+        const fourNum = document.getElementById("four-num");
+        const fiveNum = document.getElementById("five-num");
+        const sixNum = document.getElementById("six-num");
+        oneNum.addEventListener("paste", (event) => {
+           event.preventDefault();
+           const pastedText = event.clipboardData.getData('text/plain');
+           this.paste(pastedText);
+        });
+        twoNum.addEventListener("paste", (event) => {
+           event.preventDefault();
+           const pastedText = event.clipboardData.getData('text/plain');
+           this.paste(pastedText);
+        });
+        thirdNum.addEventListener("paste", (event) => {
+           event.preventDefault();
+           const pastedText = event.clipboardData.getData('text/plain');
+           this.paste(pastedText);
+        });
+        fourNum.addEventListener("paste", (event) => {
+           event.preventDefault();
+           const pastedText = event.clipboardData.getData('text/plain');
+           this.paste(pastedText);
+        });
+        fiveNum.addEventListener("paste", (event) => {
+           event.preventDefault();
+           const pastedText = event.clipboardData.getData('text/plain');
+           this.paste(pastedText);
+        });
+        sixNum.addEventListener("paste", (event) => {
+           event.preventDefault();
+           const pastedText = event.clipboardData.getData('text/plain');
+           this.paste(pastedText);
+        });
+    }
+    
+    paste(text) {
+       for(let i=0; i < text.length; i++) {
+           const ch = text[i];
+           switch(i) {
+               case 0: this.roomOneValue = ch; break;
+               case 1: this.roomTwoValue = ch; break;
+               case 2: this.roomThreeValue = ch; break;
+               case 3: this.roomFourValue = ch; break;
+               case 4: this.roomFiveValue = ch; break;
+               case 5: this.roomSixValue = ch; break;
+           }
+       }        
     }
     
     clearRoom() {
@@ -132,6 +169,9 @@ export class PlanningRoom extends LitElement {
                                case 'ROOM_JOIN':
                                   this.players = JSON.parse(message.data);
                                   this.hideJoinShowPlanning();
+                                  break;
+                               case 'USER_VOTED':
+                                  console.log(`User voted: ${message.data}`);
                                   break;
                                case 'CHAT':
                                   this.storyValue += `${message.data}\n`;
@@ -211,6 +251,21 @@ export class PlanningRoom extends LitElement {
             const chatBtn = document.getElementById("chat-btn");
             chatBtn.click();
         }   
+    }
+    _handleNameEnter(e) {
+        if(e.key === "Enter") {
+            e.preventDefault();
+            const chatBtn = document.getElementById("name-btn");
+            chatBtn.click();
+        }   
+    }
+    _handleCardClick(e) {
+        const el = e.target
+        const value = el.dataset.cardValue;
+        const data = {action: 'CARD_VOTE', data: value};
+        const dataString = JSON.stringify(data);
+        console.log(dataString);
+        this.socket.send(dataString);
     }
 }
 

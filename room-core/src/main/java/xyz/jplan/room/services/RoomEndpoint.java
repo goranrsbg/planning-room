@@ -26,6 +26,7 @@ public class RoomEndpoint {
     private Jsonb jsonb = JsonbBuilder.create();
     private static final String USER_KEY = "USER_NAME";
     private static final String ROOM_KEY = "ROOM_ID";
+    private static final String CARD_VALUE = "CARD_VALUE";
 
     @Inject
     private Validator validator;
@@ -72,6 +73,16 @@ public class RoomEndpoint {
 		    broadcast(session, players, "ROOM_JOIN");
 		} else {
 		    session.getBasicRemote().sendObject(new Message("ROOM_ID_NOT_VALID", room));
+		}
+	    }
+	    case "CARD_VOTE" -> {
+		String cardValue = message.getData();
+		if (validator.isCardValueValid(cardValue)) {
+		    session.getUserProperties().put(CARD_VALUE, cardValue);
+		    String name = (String) session.getUserProperties().get(USER_KEY);
+		    broadcast(session, name, "USER_VOTED");
+		} else {
+		    session.getBasicRemote().sendObject(new Message("CARD_VALUE_NOT_VALID", cardValue));
 		}
 	    }
 	    case "CHAT" -> {
