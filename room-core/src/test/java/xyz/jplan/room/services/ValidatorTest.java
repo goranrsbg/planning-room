@@ -27,5 +27,15 @@ class ValidatorTest {
 	assertEquals(expected, actual);
     }
 
+    @ParameterizedTest
+    @CsvSource({ "56,false", ",false", "'1.2',false", "123 456,false", "14,false", "55,true", "2.5,true" })
+    void isCardValueValid_TESTYesNoValid(String card, boolean expected) {
+	// GIVEN
+	// WHEN
+	boolean actual = sut.isCardValueValid(card);
+	// THEN
+	assertEquals(expected, actual);
+    }
+
     Validator sut = new Validator();
 }

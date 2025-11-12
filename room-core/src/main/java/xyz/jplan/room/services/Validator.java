@@ -2,11 +2,18 @@ package xyz.jplan.room.services;
 
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jakarta.ejb.Stateless;
 import jakarta.websocket.Session;
 
 @Stateless
 public class Validator {
+
+    Logger log = LoggerFactory.getLogger(Validator.class);
+
+    private double[] validCardValues = { 0d, 0.5d, 1d, 1.5d, 2d, 2.5d, 3d, 3.5d, 4d, 4.5d, 5d, 8d, 13d, 21d, 34d, 55d };
 
     public boolean isNameValid(String name) {
 	return name != null && !name.isBlank();
@@ -34,5 +41,21 @@ public class Validator {
 	    }
 	}
 	return true;
+    }
+
+    public boolean isCardValueValid(String cardValue) {
+	double cardNumber = -1d;
+	try {
+	    cardNumber = Double.parseDouble(cardValue);
+	} catch (NumberFormatException | NullPointerException e) {
+	    log.error("Not valid card value: {0}", cardValue, e);
+	    return false;
+	}
+	for (double cv : validCardValues) {
+	    if (cv == cardNumber) {
+		return true;
+	    }
+	}
+	return false;
     }
 }
