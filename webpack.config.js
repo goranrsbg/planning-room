@@ -47,7 +47,7 @@ module.exports = {
      ],
    },
   output: {
-    assetModuleFilename: 'assets/[name][ext]',
+    assetModuleFilename: 'images/[name][ext]',
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, './room-web/src/main/webapp'),
     clean: false,
