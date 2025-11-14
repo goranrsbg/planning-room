@@ -49,10 +49,10 @@ export class PlanningRoom extends LitElement {
             <label>${this.version}</label>
             <div id="join-room" class="col">
               <div id="send-name" class="row">
-                <input placeholder="name" type="text" size="12" .value=${this.nameValue} @input=${this._handleNameInput} @keypress="${this._handleNameEnter}" />
+                <input placeholder="name" type="text" size="12" maxlength="19" .value=${this.nameValue} @input=${this._handleNameInput} @keypress="${this._handleNameEnter}" />
                 <button id="name-btn" type="button" @click="${this.sendName}">Send name</button>
               </div>
-              <label>${this.name}</label>
+              <label class="name-lbl">${this.name}</label>
               <div id="room-id" class="room-numbers hide">
                 <input id="one-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomOneValue} @input=${this._handleRoomOneInput} />
                 <input id="two-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomTwoValue} @input=${this._handleRoomTwoInput} />
@@ -61,24 +61,33 @@ export class PlanningRoom extends LitElement {
                 <input id="five-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomFiveValue} @input=${this._handleRoomFiveInput} />
                 <input id="six-num" type="number" size="1" min="0" max="9" maxlength="1" .value=${this.roomSixValue} @input=${this._handleRoomSixInput} />
                 <div class="row">
-                  <button type="button" @click="${this.joinRoom}">Join Room</button>
-                  <button type="button" @click="${this.createRoom}">Create Room</button>
+                  <button type="button" @click="${this.joinRoom}" title="Join">🚪</button>
+                  <button type="button" @click="${this.createRoom}">Create</button>
                 </div>
               </div>
             </div>
             <!-- PLANNING ROOM -->
             <div id="planning-room" class="col hide">
-              <textarea name="story" rows="17" cols="37" .value=${this.storyValue}></textarea>
+              <textarea name="story" rows="17" cols="27" .value=${this.storyValue}></textarea>
               <div class="row">
-                <input placeholder="message" type="text" size="37" .value=${this.chatValue} @input=${this._handleChatInput} @keypress="${this._handleChatEnter}" />
-                <button id="chat-btn" type="button" @click="${this.sendMessage}">Send message</button>
+                <input placeholder="message" type="text" size="27" .value=${this.chatValue} @input=${this._handleChatInput} @keypress="${this._handleChatEnter}" />
+                <button id="chat-btn" type="button" @click="${this.sendMessage}">⎆</button>
               </div>
               <h1>${this.room}</h1>
               <div class="players">
-                ${this.players.map(player => html`<div class="player">${player}</div>`)}
+                <table>
+                ${this.players.map(player => html`<tr>
+                      <td>
+                        <div class="player">${player}</div>
+                      </td>
+                      <td>
+                        <img src="./assets/pr.png" class="player-img"/>
+                      </td>
+                    </tr>`)}
+                </table>
               </div>
               <div class="cards">
-                ${this.cards.map(card => html`<h4 data-card-value=${card} @click="${this._handleCardClick}" class="card row">${card}</h4>`)}
+                ${this.cards.map(card => html`<div data-card-value=${card} @click="${this._handleCardClick}" class="card row">${card}</div>`)}
               </div>
             </div>
         `;
@@ -149,8 +158,8 @@ export class PlanningRoom extends LitElement {
     connect() {
         let wsUri = `ws://${location.host + location.pathname}planning`
         this.socket = new WebSocket(wsUri);
-        this.socket.addEventListener('open', (event) => {
-                           console.log('WebSocket connection established!', event);
+        this.socket.addEventListener('open', () => {
+                           console.log('WebSocket connection established!');
                         });
         this.socket.addEventListener('message', (event) => {
                            const message = JSON.parse(event.data);
