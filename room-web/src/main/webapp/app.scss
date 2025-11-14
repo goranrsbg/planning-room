@@ -48,7 +48,7 @@
 }
 
 html {
-    font-size: 16px;
+    height: 100vh;
 }
 
 body {
@@ -59,15 +59,11 @@ body {
     background-position: center center;
     background-attachment: fixed;
     margin: 0;
-    height: 100vh;
+    height: 100%;
 }
 
 h1 {
     font-family: 'OpenSansLight', sans-serif;
-}
-
-h4 {
-    font-family: 'OpenSansBold', sans-serif;
 }
 
 .row {
@@ -86,6 +82,11 @@ h4 {
 
 .hide {
     display: none !important;
+}
+
+.name-lbl {
+    color: whitesmoke;
+    padding: 1rem;
 }
 
 .room-numbers {
@@ -108,6 +109,14 @@ h4 {
     .player {
         font-family: 'OpenSansLight', sans-serif;
         font-size: 1rem;
+        background-color: whitesmoke;
+        padding: 0.5rem;
+        border-radius: 2rem;
+    }
+    .player-img {
+        width: 50px;
+        height: auto;
+        margin-left: 1rem;
     }
 }
 
@@ -116,30 +125,39 @@ h4 {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: auto;
     grid-auto-rows: auto;
-    column-gap: 3px;
-    row-gap: 3px;
+    column-gap: 10px;
+    row-gap: 10px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     place-items: center;
     justify-content: center;
     align-items: center;
     .card {
-        background-image: url('./assets/theCard.svg');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
+        font-family: 'OpenSansBold', sans-serif;
+        background-color: rgba($color: white, $alpha: 0.5);
+        box-shadow: 5px 5px 5px white;
         width: 60px;
         height: 90px;
-        color: whitesmoke;
         font-size: 2rem;
+        cursor: pointer;
     }
 }
 
 footer {
-    position: absolute;
-    background: transparent;
+    position: sticky;
     bottom: 0;
-    left: 0;
-    right: 0;
-    margin-inline: auto;
-    width: fit-content;
-    font-size: 0.8rem;
+    width: 100%;
+    .footer-text {
+        background: white;
+        border-radius: 2rem;
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+}
+
+@media(min-width: 768) {
+.cards {
+    column-gap: 2rem;
+    row-gap: 2rem;    
+    }
 }
