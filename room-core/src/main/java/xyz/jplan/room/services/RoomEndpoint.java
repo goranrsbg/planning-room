@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.websocket.EncodeException;
@@ -19,6 +20,7 @@ import jakarta.websocket.server.ServerEndpoint;
 import xyz.jplan.room.services.data.Message;
 
 @ServerEndpoint(value = "/planning", decoders = MessageDecoder.class, encoders = MessageEncoder.class)
+@Named("room-endpoint")
 public class RoomEndpoint {
 
     Logger log = LoggerFactory.getLogger(RoomEndpoint.class);
