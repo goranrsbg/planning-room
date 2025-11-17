@@ -118,6 +118,9 @@ h1 {
         height: auto;
         margin-left: 1rem;
     }
+    .player-animate {
+        
+    }
 }
 
 .cards {
@@ -140,6 +143,10 @@ h1 {
         height: 90px;
         font-size: 2rem;
         cursor: pointer;
+    }
+    .selected {
+        background-color: rgba($color: rgb(0, 64, 0), $alpha: 0.5);
+        color: whitesmoke;
     }
 }
 

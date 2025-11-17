@@ -31,8 +31,10 @@ export class PlanningRoom extends LitElement {
         this.room = "";
         this.socket = {};
         this.players = [];
-        this.cards = ['0','0.5','1','1.5','2','2.5','3','3.5','4','4.5','5','8','13','21','34','55'];
+        this.cards = [{value:'0',isSelected:false},{value:'0.5',isSelected:false},{value:'1',isSelected:false},{value:'1.5',isSelected:false},{value:'2',isSelected:false},{value:'2.5',isSelected:false},{value:'3',isSelected:false},{value:'3.5',isSelected:false},{value:'4',isSelected:false},{value:'4.5',isSelected:false},{value:'5',isSelected:false},{value:'8',isSelected:false},{value:'13',isSelected:false},{value:'21',isSelected:false},{value:'34',isSelected:false},{value:'55',isSelected:false}];
     }
+ 
+    
     
     firstUpdated() {
         this.connect();
@@ -49,7 +51,9 @@ export class PlanningRoom extends LitElement {
             <label>${this.version}</label>
             <div id="join-room" class="col">
               <div id="send-name" class="row">
-                <input placeholder="name" type="text" size="12" maxlength="19" .value=${this.nameValue} @input=${this._handleNameInput} @keypress="${this._handleNameEnter}" />
+                <input placeholder="name" type="text" size="12" maxlength="19" .value=${this.nameValue} 
+                                                                               @input=${this._handleNameInput} 
+                                                                               @keypress="${this._handleNameEnter}" />
                 <button id="name-btn" type="button" @click="${this.sendName}">Send name</button>
               </div>
               <label class="name-lbl">${this.name}</label>
@@ -70,7 +74,9 @@ export class PlanningRoom extends LitElement {
             <div id="planning-room" class="col hide">
               <textarea name="story" rows="17" cols="27" .value=${this.storyValue}></textarea>
               <div class="row">
-                <input placeholder="message" type="text" size="27" .value=${this.chatValue} @input=${this._handleChatInput} @keypress="${this._handleChatEnter}" />
+                <input placeholder="message" type="text" size="27" .value=${this.chatValue} 
+                                                                   @input=${this._handleChatInput} 
+                                                                   @keypress="${this._handleChatEnter}" />
                 <button id="chat-btn" type="button" @click="${this.sendMessage}">⎆</button>
               </div>
               <h1>${this.room}</h1>
@@ -78,16 +84,18 @@ export class PlanningRoom extends LitElement {
                 <table>
                 ${this.players.map(player => html`<tr>
                       <td>
-                        <div class="player">${player}</div>
+                        <div class="player">${player.name}</div>
                       </td>
                       <td>
-                        <img src="./assets/pr.png" class="player-img"/>
+                        <img src="./assets/pr.png" class="player-img ${player.isAnimating ? 'player-animate' : ''}"/>
                       </td>
                     </tr>`)}
                 </table>
               </div>
               <div class="cards">
-                ${this.cards.map(card => html`<div data-card-value=${card} @click="${this._handleCardClick}" class="card row">${card}</div>`)}
+                ${this.cards.map(card => html`<div data-card-value=${card.value} 
+                                                   @click="${this._handleCardClick}" 
+                                                   class="card row ${card.isSelected ? 'selected' : ''}">${card.value}</div>`)}
               </div>
             </div>
         `;
@@ -131,7 +139,6 @@ export class PlanningRoom extends LitElement {
            this.paste(pastedText);
         });
     }
-    
     paste(text) {
        for(let i=0; i < text.length; i++) {
            const ch = text[i];
@@ -145,7 +152,6 @@ export class PlanningRoom extends LitElement {
            }
        }        
     }
-    
     clearRoom() {
         this.roomOneValue = "";
         this.roomTwoValue = "";
@@ -154,43 +160,74 @@ export class PlanningRoom extends LitElement {
         this.roomFiveValue = "";
         this.roomSixValue = "";
     }
-    
+    hideJoinShowPlanning() {
+        const joinRoom = document.getElementById("join-room");
+        const planningRoom = document.getElementById("planning-room");
+        joinRoom.classList.add("hide");
+        planningRoom.classList.remove("hide");
+    }
     connect() {
         let wsUri = `ws://${location.host + location.pathname}planning`
         this.socket = new WebSocket(wsUri);
-        this.socket.addEventListener('open', () => {
-                           console.log('WebSocket connection established!');
-                        });
-        this.socket.addEventListener('message', (event) => {
-                           const message = JSON.parse(event.data);
-                           switch(message.action) {
-                               case 'NAME_IS_SET':
-                                  this.name = message.data;
-                                  const sendName = document.getElementById("send-name");
-                                  const roomId = document.getElementById("room-id");
-                                  sendName.classList.add("hide");
-                                  roomId.classList.remove("hide");
-                                  break;
-                               case 'ROOM_CREATED':
-                                  this.players = JSON.parse(message.data);
-                                  this.hideJoinShowPlanning();
-                                  break;
-                               case 'ROOM_JOIN':
-                                  this.players = JSON.parse(message.data);
-                                  this.hideJoinShowPlanning();
-                                  break;
-                               case 'USER_VOTED':
-                                  console.log(`User voted: ${message.data}`);
-                                  break;
-                               case 'CHAT':
-                                  this.storyValue += `${message.data}\n`;
-                                  break;
-                               default:
-                                  console.log("Missing action:", message);
-                           }
-                       });
+        this.socket.addEventListener('open', () => { console.log('WebSocket connection established!'); });
+        this.socket.addEventListener('message', (e) => {
+            const message = JSON.parse(e.data);
+            switch(message.action) {
+               case 'NAME_IS_SET':
+                  this.name = message.data;
+                  const sendName = document.getElementById("send-name");
+                  const roomId = document.getElementById("room-id");
+                  sendName.classList.add("hide");
+                  roomId.classList.remove("hide");
+                  break;
+               case 'ROOM_CREATED':
+                  this.players = JSON.parse(message.data);
+                  this.hideJoinShowPlanning();
+                  break;
+               case 'ROOM_JOIN':
+                  this.players = JSON.parse(message.data);
+                  this.hideJoinShowPlanning();
+                  break;
+               case 'USER_VOTED':
+                  console.log(`User voted: ${message.data}`);
+                  break;
+               case 'CHAT':
+                  this.storyValue += `${message.data}\n`;
+                  break;
+               default:
+                  console.log("Missing action:", message);
+            }                       
+        });
     }
     
+    onMessage(e) {
+        const message = JSON.parse(e.data);
+        switch(message.action) {
+           case 'NAME_IS_SET':
+              this.name = message.data;
+              const sendName = document.getElementById("send-name");
+              const roomId = document.getElementById("room-id");
+              sendName.classList.add("hide");
+              roomId.classList.remove("hide");
+              break;
+           case 'ROOM_CREATED':
+              this.players = JSON.parse(message.data);
+              this.hideJoinShowPlanning();
+              break;
+           case 'ROOM_JOIN':
+              this.players = JSON.parse(message.data);
+              this.hideJoinShowPlanning();
+              break;
+           case 'USER_VOTED':
+              console.log(`User voted: ${message.data}`);
+              break;
+           case 'CHAT':
+              this.storyValue += `${message.data}\n`;
+              break;
+           default:
+              console.log("Missing action:", message);
+        }                       
+    }    
     sendMessage() {
         const data = {action: 'CHAT', data: `${this.chatValue}`};
         const dataString = JSON.stringify(data);
@@ -223,13 +260,7 @@ export class PlanningRoom extends LitElement {
         this.socket.send(dataString);
         this.clearRoom();
     }
-    hideJoinShowPlanning() {
-        const joinRoom = document.getElementById("join-room");
-        const planningRoom = document.getElementById("planning-room");
-        joinRoom.classList.add("hide");
-        planningRoom.classList.remove("hide");
-    }
-    
+       
     _handleChatInput(e) {
         this.chatValue = e.target.value;
     }
@@ -275,6 +306,10 @@ export class PlanningRoom extends LitElement {
         const dataString = JSON.stringify(data);
         console.log(dataString);
         this.socket.send(dataString);
+        this.cards.forEach(card => {
+            card.isSelected = card.value == value;
+        });
+        this.cards=[...this.cards];
     }
 }
 
