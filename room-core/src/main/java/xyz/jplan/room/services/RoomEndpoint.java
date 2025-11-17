@@ -18,6 +18,7 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 import xyz.jplan.room.services.data.Message;
+import xyz.jplan.room.services.data.Player;
 
 @ServerEndpoint(value = "/planning", decoders = MessageDecoder.class, encoders = MessageEncoder.class)
 @Named("room-endpoint")
@@ -81,7 +82,7 @@ public class RoomEndpoint {
 		String cardValue = message.getData();
 		if (validator.isCardValueValid(cardValue)) {
 		    session.getUserProperties().put(CARD_VALUE, cardValue);
-		    String name = (String) session.getUserProperties().get(USER_KEY);
+		    String name = getValue(session, USER_KEY, "");
 		    broadcast(session, name, "USER_VOTED");
 		} else {
 		    session.getBasicRemote().sendObject(new Message("CARD_VALUE_NOT_VALID", cardValue));
@@ -104,19 +105,19 @@ public class RoomEndpoint {
     }
 
     private String getChatMessage(Session session, String text) {
-	String name = (String) session.getUserProperties().getOrDefault(USER_KEY, "");
+	String name = getValue(session, USER_KEY, "");
 	return String.format("%s: %s", name, text);
     }
 
     private String gatherPlayers(Session session) {
-	List<String> players = new ArrayList<>();
-	String room = (String) session.getUserProperties().getOrDefault(ROOM_KEY, "No room.");
+	List<Player> players = new ArrayList<>();
+	String room = getValue(session, ROOM_KEY, "No room.");
 	session.getOpenSessions().forEach(ses -> {
 	    if (ses.isOpen()) {
-		String roomValue = (String) ses.getUserProperties().getOrDefault(ROOM_KEY, "");
+		String roomValue = getValue(ses, ROOM_KEY, "");
 		if (roomValue.equals(room)) {
-		    String name = (String) ses.getUserProperties().getOrDefault(USER_KEY, "");
-		    players.add(name);
+		    String name = getValue(ses, USER_KEY, "");
+		    players.add(new Player(name));
 		}
 	    }
 	});
@@ -124,11 +125,11 @@ public class RoomEndpoint {
     }
 
     private void broadcast(Session session, String text, String action) {
-	String room = (String) session.getUserProperties().getOrDefault(ROOM_KEY, "No room.");
+	String room = getValue(session, ROOM_KEY, "No room.");
 	session.getOpenSessions().forEach(ses -> {
 	    try {
 		if (ses.isOpen()) {
-		    String roomValue = (String) ses.getUserProperties().getOrDefault(ROOM_KEY, "");
+		    String roomValue = getValue(ses, ROOM_KEY, "");
 		    if (roomValue.equals(room)) {
 			ses.getBasicRemote().sendObject(new Message().withAction(action).withData(text));
 		    }
@@ -137,5 +138,9 @@ public class RoomEndpoint {
 		e.printStackTrace();
 	    }
 	});
+    }
+
+    private String getValue(Session session, String key, String def) {
+	return (String) session.getUserProperties().getOrDefault(key, def);
     }
 }
