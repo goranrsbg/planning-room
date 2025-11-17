@@ -80,12 +80,12 @@ public class RoomEndpoint {
 	    }
 	    case "CARD_VOTE" -> {
 		String cardValue = message.getData();
-		if (validator.isCardValueValid(cardValue)) {
+		if (validator.isCardValueValid(cardValue) && !getValue(session, CARD_VALUE, "").equals(cardValue)) {
 		    session.getUserProperties().put(CARD_VALUE, cardValue);
 		    String name = getValue(session, USER_KEY, "");
 		    broadcast(session, name, "USER_VOTED");
 		} else {
-		    session.getBasicRemote().sendObject(new Message("CARD_VALUE_NOT_VALID", cardValue));
+		    session.getBasicRemote().sendObject(new Message("CARD_VALUE_NOT_ACCEPTED", cardValue));
 		}
 	    }
 	    case "CHAT" -> {
