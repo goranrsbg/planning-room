@@ -189,7 +189,18 @@ export class PlanningRoom extends LitElement {
                   this.hideJoinShowPlanning();
                   break;
                case 'USER_VOTED':
-                  console.log(`User voted: ${message.data}`);
+                  const userName = message.data;
+                  console.log(`User voted: ${userName}`);
+                  this.players.forEach(player => {
+                      if(player.name == userName) player.isAnimating = true;
+                  });
+                  this.players = [...this.players];
+                  setTimeout(() => {
+                      this.players.forEach(player => {
+                          if(player.name == userName) player.isAnimating = false;
+                      });
+                      this.players = [...this.players];
+                  }, 1000);
                   break;
                case 'CHAT':
                   this.storyValue += `${message.data}\n`;
