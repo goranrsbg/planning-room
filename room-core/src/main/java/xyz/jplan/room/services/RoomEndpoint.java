@@ -115,9 +115,10 @@ public class RoomEndpoint {
 	session.getOpenSessions().forEach(ses -> {
 	    if (ses.isOpen()) {
 		String roomValue = getValue(ses, ROOM_KEY, "");
+		String voteValue = getValue(ses, CARD_VALUE, "");
 		if (roomValue.equals(room)) {
 		    String name = getValue(ses, USER_KEY, "");
-		    players.add(new Player(name));
+		    players.add(new Player(name).withHasVoted(!voteValue.isBlank()));
 		}
 	    }
 	});

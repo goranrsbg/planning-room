@@ -87,7 +87,7 @@ export class PlanningRoom extends LitElement {
                         <div class="player">${player.name}</div>
                       </td>
                       <td>
-                        <img src="./assets/pr.png" class="player-img ${player.isAnimating ? 'player-animate' : ''}"/>
+                        ${player.hasVoted ? html`<img src="./assets/pr.png" class="player-img ${player.isAnimating ? 'player-animate' : ''}"/>` : ''} 
                       </td>
                     </tr>`)}
                 </table>
@@ -321,6 +321,12 @@ export class PlanningRoom extends LitElement {
             card.isSelected = card.value == value;
         });
         this.cards=[...this.cards];
+        this.players.forEach(player => {
+            if(!player.hasVoted && player.name === this.name) {
+                player.hasVoted = true;
+            }
+        });
+        this.players = [...this.players];
     }
 }
 
