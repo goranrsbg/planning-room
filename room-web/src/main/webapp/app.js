@@ -18,6 +18,8 @@ export class PlanningRoom extends LitElement {
         room:           {type: String, attribute: false},
         players:        {type: Array,  attribute: false},
         cards:          {type: Array,  attribute: false},
+        infoAction:     {type: String, attribute: false},
+        infoData:       {type: String, attribute: false},
     };
 	
     constructor() {
@@ -97,6 +99,10 @@ export class PlanningRoom extends LitElement {
                                                    @click="${this._handleCardClick}" 
                                                    class="card row ${card.isSelected ? 'selected' : ''}">${card.value}</div>`)}
               </div>
+            </div>
+            <div id="info" class="info col hide">
+              <dir class="item">${this.infoAction}</dir>
+              <dir class="item">${this.infoData}</dir>
             </div>
         `;
     }
@@ -207,6 +213,13 @@ export class PlanningRoom extends LitElement {
                   break;
                default:
                   console.log("Missing action:", message);
+                  this.infoAction = message.action;
+                  this.infoData = message.data;
+                  const infoel = document.getElementById("info");
+                  infoel.classList.remove("hide");
+                  setTimeout(() => {
+                    infoel.classList.add("hide")
+                  }, 3000);
             }                       
         });
     }

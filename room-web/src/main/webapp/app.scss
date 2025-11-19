@@ -64,6 +64,8 @@ body {
 
 h1 {
     font-family: 'OpenSansLight', sans-serif;
+    border-radius: 4px;
+    background-color: rgba($color: whitesmoke, $alpha: 0.5);
 }
 
 .row {
@@ -166,6 +168,19 @@ h1 {
     .selected {
         background-color: rgba($color: rgb(0, 64, 0), $alpha: 0.5);
         color: whitesmoke;
+    }
+}
+.info {
+    position: absolute;
+    background-color: rgba($color: rgb(0, 255, 0), $alpha: 0.5);
+    border-radius: 4px;
+    font-size: 1rem;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    
+    .item {
+        margin: 0;
+        padding: 0 0.5rem;
     }
 }
 
